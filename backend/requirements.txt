@@ -1,0 +1,10 @@
+fastapi
+numpy
+keras
+pandas
+transformers
+requests
+sqlite3
+feedparser
+faiss
+beautifulsoup4
