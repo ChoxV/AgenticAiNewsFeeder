@@ -1,20 +1,27 @@
-from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-summarizer = pipeline(
-    "summarization",
-    model="sshleifer/distilbart-cnn-12-6",
-    device=-1
-)
+model_name = "sshleifer/distilbart-cnn-12-6"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
 
 def summarize_article(text):
 
     text = text[:1000]
 
-    result = summarizer(
+    inputs = tokenizer(
         text,
-        max_length=80,
-        min_length=30,
-        do_sample=False
+        return_tensors="pt",
+        max_length=1024,
+        truncation=True
     )
 
-    return result[0]["summary_text"]
+    summary_ids = model.generate(
+        inputs["input_ids"],
+        max_length=80,
+        min_length=30,
+        do_sample=False,
+        num_beams=4,
+    )
+
+    return tokenizer.decode(summary_ids[0], skip_special_tokens=True)

@@ -1,7 +1,12 @@
-export async function askNews(question){
+export async function askNews(question) {
     const response = await fetch(
-        'https://localhost:8000/ask?query=${question}'
+        `http://localhost:8000/ask?query=${encodeURIComponent(question)}`
     );
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch answer");
+    }
+
     const data = await response.json();
     return data;
 }

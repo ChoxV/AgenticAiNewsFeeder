@@ -2,9 +2,9 @@ fastapi
 numpy
 keras
 pandas
-transformers
+transformers>=5.0.0
+torch
 requests
-sqlite3
 feedparser
 faiss
 beautifulsoup4
